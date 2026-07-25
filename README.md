@@ -7,7 +7,7 @@ Comprehensive `pscale` command reference and automation workflows for managing P
 
 ## 🎯 What This Skill Provides
 
-- **10 sub-skills** covering all major `pscale` commands
+- **12 sub-skills** covering all major `pscale` commands
 - **3 automation scripts** for common workflows (create branch, deploy schema, sync)
 - **Decision trees** for common questions (branch vs deploy request, tokens vs passwords)
 - **Troubleshooting sections** for self-service problem solving
@@ -18,7 +18,7 @@ Comprehensive `pscale` command reference and automation workflows for managing P
 
 ### Agent Skills (`npx skills`)
 
-This repository is a collection containing the `planetscale-cli-skills` orchestrator plus 10 standalone `pscale-*` skills.
+This repository is a collection containing the `planetscale-cli-skills` orchestrator plus 12 standalone `pscale-*` skills.
 Each skill lives in its own directory with its own `SKILL.md`; there is intentionally no root `SKILL.md` so Agent Skills can discover every sibling instead of stopping at the repository root.
 
 ```bash
@@ -105,6 +105,8 @@ pscale branch create my-database feature-branch --from main
 | **pscale-deploy-request** | Deploy schema changes safely | `pscale deploy-request create/deploy` |
 | **pscale-database** | Manage databases, open shells | `pscale database list`, `pscale shell` |
 | **pscale-sql** | Non-interactive SQL for agents/scripts | `pscale sql --query` |
+| **pscale-insights** | Analyze production query performance, errors, anomalies, and schema recommendations | `pscale insights queries/errors/anomalies/recommendations` |
+| **pscale-inspect** | Run point-in-time, read-only MySQL/Vitess and PostgreSQL diagnostics | `pscale inspect all/locks/seq-scans/bloat` |
 | **pscale-import-d1** | Import Cloudflare D1 exports into PlanetScale Postgres | `pscale import d1 lint/start/verify` |
 | **pscale-backup** | Create and restore backups | `pscale backup create/list` |
 | **pscale-password** | Connection passwords | `pscale password create/list` |
@@ -202,6 +204,20 @@ pscale sql my-db main --org my-org --format json --query "SELECT 1"
 # and should only be run after explicit user approval.
 pscale sql my-db main --org my-org --role admin --query "UPDATE users SET disabled = true WHERE id = 123"
 ```
+
+### Database diagnostics
+
+```bash
+# Point-in-time, connection-level diagnostics (JSON combined report)
+pscale inspect all my-db main --org my-org --format json
+
+# Server-side analysis of production traffic
+pscale insights queries my-db main --org my-org --sort p99Latency --period 1h --format json
+pscale insights errors my-db main --org my-org --period 1h --format json
+pscale insights recommendations my-db --org my-org --format json
+```
+
+`pscale inspect` is read-only and target-specific; choose `--dbname` for PostgreSQL or `--keyspace <keyspace>/<shard>` for Vitess when defaults are not the intended target. Treat recommendation DDL as a proposal that still requires review and explicit approval.
 
 ### Cloudflare D1 Import
 

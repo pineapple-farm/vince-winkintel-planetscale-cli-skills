@@ -1,6 +1,6 @@
 ---
 name: planetscale-cli-skills
-description: Comprehensive PlanetScale CLI (pscale) command reference and workflows for database management via terminal. Use when user mentions PlanetScale CLI, pscale commands, database branches, deploy requests, schema migrations, SQL queries, Cloudflare D1 imports, or any PlanetScale terminal operations. Routes to specialized sub-skills for auth, branches, deploy requests, SQL, D1 imports, databases, backups, and other pscale commands. Triggers on pscale, PlanetScale CLI, database branch, deploy request, schema migration, pscale sql, pscale import d1, Cloudflare D1 migration, PlanetScale automation.
+description: Comprehensive PlanetScale CLI (pscale) command reference and workflows for database management via terminal. Use when user mentions PlanetScale CLI, pscale commands, database branches, deploy requests, schema migrations, SQL queries, diagnostics, query insights, Cloudflare D1 imports, or any PlanetScale terminal operations. Routes to specialized sub-skills for auth, branches, deploy requests, SQL, insights, inspection, D1 imports, databases, backups, and other pscale commands. Triggers on pscale, PlanetScale CLI, database branch, deploy request, schema migration, pscale sql, pscale insights, pscale inspect, query performance, database diagnostics, pscale import d1, Cloudflare D1 migration, PlanetScale automation.
 requirements:
   binaries:
     - pscale
@@ -15,10 +15,10 @@ metadata:
   openclaw:
     purpose: >
       Provide command reference and automation for PlanetScale CLI (pscale) operations only.
-      Scope is limited to: database and branch management, deploy requests, non-interactive SQL queries, Cloudflare D1 imports,
-      backups, passwords, service tokens, and organization management via the pscale CLI tool.
+      Scope is limited to: database and branch management, deploy requests, non-interactive SQL queries, query insights,
+      read-only diagnostics, Cloudflare D1 imports, backups, passwords, service tokens, and organization management via the pscale CLI tool.
     capabilities:
-      - Run pscale CLI commands to manage PlanetScale databases, branches, deploy requests, D1 imports, and non-interactive SQL queries
+      - Run pscale CLI commands to manage PlanetScale databases, branches, deploy requests, D1 imports, non-interactive SQL queries, query insights, and read-only diagnostics
       - Execute bundled automation scripts (create-branch-for-mr.sh, deploy-schema-change.sh, sync-branch-with-main.sh)
       - Read PlanetScale CLI output and help users interpret results
     install_mechanism: >
@@ -64,6 +64,8 @@ The PlanetScale CLI brings database branches, deploy requests, and schema migrat
 | **deploy-request** | `pscale-deploy-request` | Create, review, deploy, revert schema changes |
 | **database** | `pscale-database` | Create, list, show, delete databases |
 | **sql** | `pscale-sql` | Run non-interactive SQL queries with JSON output and ephemeral credentials |
+| **insights** | `pscale-insights` | Analyze production query statistics, errors, anomalies, and schema recommendations |
+| **inspect** | `pscale-inspect` | Run point-in-time, read-only MySQL/Vitess and PostgreSQL diagnostic checks |
 | **import d1** | `pscale-import-d1` | Import Cloudflare D1 SQLite exports into PlanetScale Postgres |
 | **backup** | `pscale-backup` | Create, list, show, delete branch backups |
 | **password** | `pscale-password` | Create, list, delete connection passwords |
@@ -200,6 +202,11 @@ pscale shell <database> <branch>
 
 # Non-interactive read query for agents/scripts
 pscale sql <database> <branch> --org <org> --format json --query "SELECT 1"
+
+# Point-in-time diagnostics plus server-side production-traffic analysis
+pscale inspect all <database> <branch> --org <org> --format json
+pscale insights queries <database> <branch> --org <org> --sort p99Latency --period 1h --format json
+pscale insights recommendations <database> --org <org> --format json
 
 # Cloudflare D1 import dry-run
 pscale import d1 start <database> <branch> --input ./d1-export.sql --dry-run --format json
