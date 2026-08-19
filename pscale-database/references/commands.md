@@ -1,3 +1,6 @@
+> The parent database and database-throttler help blocks below were captured from the checksum-verified PlanetScale CLI v0.321.0 macOS arm64 release binary and match after normalizing only trailing whitespace.
+
+```text
 Create, read, update, delete, and dump/restore databases
 
 Usage:
@@ -14,6 +17,7 @@ Available Commands:
   list           List databases
   restore-dump   Restore your database from a local dump directory (Vitess databases only)
   show           Retrieve information about a database, including settings
+  throttler      Show or update database throttler configuration
   update         Update a database's settings
 
 Flags:
@@ -33,6 +37,100 @@ Global Flags:
 Use "pscale database [command] --help" for more information about a command.
 
 Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale database throttler
+
+```text
+Show or update database-level Vitess migration throttler configuration.
+
+This sets the default throttler for future deploy requests on the database.
+It is not the per-deploy-request throttler (pscale deploy-request throttler)
+and not the tablet/vtctld throttler (pscale branch vtctld throttler).
+
+Usage:
+  pscale database throttler [command]
+
+Available Commands:
+  show        Show database throttler configuration
+  update      Update database throttler configuration
+
+Flags:
+  -h, --help   help for throttler
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Use "pscale database throttler [command] --help" for more information about a command.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale database throttler show
+
+```text
+Show database throttler configuration
+
+Usage:
+  pscale database throttler show <database> [flags]
+
+Flags:
+  -h, --help   help for show
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale database throttler update
+
+```text
+Update database-level Vitess migration throttler configuration.
+
+Use --ratio to apply one ratio (0-95) to all eligible keyspaces.
+Use --configuration keyspace=ratio (repeatable) for per-keyspace ratios.
+Pass exactly one of these modes. 0 effectively disables throttling; 95 slows migrations the most.
+
+This is the database default for future deploy requests, not a single deploy request.
+
+Usage:
+  pscale database throttler update <database> [flags]
+
+Flags:
+      --configuration stringArray   Per-keyspace ratio as keyspace=ratio (repeatable)
+  -h, --help                        help for update
+      --ratio int                   Throttler ratio 0-95 applied to all eligible keyspaces
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
 
 ## pscale keyspace read-only-regions
 
@@ -134,3 +232,125 @@ pscale keyspace read-only-regions remove <database> <branch> <keyspace> <region>
 ```
 
 These commands are Vitess-only. `add` uses a slug from `pscale region list`; update/remove require a region already configured on the keyspace. Verify the resulting list after every write.
+
+## pscale keyspace
+
+The keyspace parent, list, show, and delete help blocks below are exact output from the official, checksum-verified PlanetScale CLI v0.321.0 macOS arm64 release binary. Terminal padding and trailing whitespace are not material.
+
+```text
+List, show, and manage keyspaces.
+
+This command is only supported for Vitess databases.
+
+Usage:
+  pscale keyspace [command]
+
+Available Commands:
+  create            Create a new keyspace within a branch
+  delete            Delete a keyspace from a branch
+  list              List all keyspaces within a branch
+  read-only-regions List read-only regions for a keyspace
+  resize            Resize a keyspace within a branch
+  rollout-status    Show keyspace rollout status per shard
+  settings          Show the settings for a keyspace
+  show              Show a keyspace within a branch
+  update-settings   Update the settings for a keyspace
+  vschema           Update or show the VSchema of a branch
+
+Flags:
+  -h, --help         help for keyspace
+      --org string   The organization for the current user
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Use "pscale keyspace [command] --help" for more information about a command.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale keyspace list
+
+```text
+List all keyspaces within a branch
+
+Usage:
+  pscale keyspace list <database> <branch> [flags]
+
+Flags:
+  -h, --help   help for list
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale keyspace show
+
+```text
+Show a keyspace within a branch
+
+Usage:
+  pscale keyspace show <database> <branch> <keyspace> [flags]
+
+Flags:
+  -h, --help   help for show
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```
+
+## pscale keyspace delete
+
+```text
+Delete a keyspace from a branch
+
+Usage:
+  pscale keyspace delete <database> <branch> <keyspace> [flags]
+
+Aliases:
+  delete, rm
+
+Flags:
+      --force   Delete a keyspace without confirmation
+  -h, --help    help for delete
+
+Global Flags:
+      --api-token string          The API token to use for authenticating against the PlanetScale API.
+      --api-url string            The base URL for the PlanetScale API. (default "https://api.planetscale.com/")
+      --config string             Config file (default is $HOME/.config/planetscale/pscale.yml)
+      --debug                     Enable debug mode
+  -f, --format string             Show output in a specific format. Possible values: [human, json, csv] (default "human")
+      --no-color                  Disable color output
+      --org string                The organization for the current user
+      --service-token string      Service Token for authenticating.
+      --service-token-id string   The Service Token ID for authenticating.
+
+Agents: run "pscale agent-guide --format json" for machine-readable guidance, or "pscale help agents" to read the full guide.
+```

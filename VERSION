@@ -1,7 +1,22 @@
-1.0.12
+1.0.15
 
 Release/version change metadata for this skill set lives here, not in individual skill files.
 
+- PlanetScale CLI v0.321.0
+  - Reviewed the upstream release and compare `v0.320.0...v0.321.0` on 2026-08-19.
+  - Added standalone `pscale-metrics` guidance for historical series, current values, and engine-aware grouped performance reports across JSON, CSV, and human output.
+  - Documented time-range exclusivity, positive-step validation, metric/dimension filtering, output interpretation, and correlation with Insights and live inspection.
+  - Re-captured the complete metrics parent/subcommand help surface from the checksum-verified v0.321.0 macOS arm64 release binary.
+- PlanetScale CLI v0.320.0
+  - Reviewed upstream releases v0.319.0 and v0.320.0 plus compare `v0.317.0...v0.320.0` on 2026-08-18; no v0.318.0 release exists.
+  - Added standalone read-only maintenance schedule/list/show/window guidance for Vitess Enterprise databases, including IDs, pending-version/deadline interpretation, week-of-month output, and JSON-first review.
+  - Added database-level Vitess migration throttler show/update guidance, distinguishing future deploy defaults from per-deploy and vtctld throttlers and requiring explicit approval plus post-write verification.
+  - Documented non-zero propagation for dump cursor/worker failures and re-captured all affected maintenance/database-throttler help from the checksum-verified v0.320.0 macOS arm64 release binary.
+- PlanetScale CLI v0.317.0
+  - Reviewed upstream releases v0.316.0 and v0.317.0 plus compares `v0.315.0...v0.316.0` and `v0.316.0...v0.317.0` on 2026-08-14.
+  - Added deploy-request queue, deployment, operation, review, storage-readiness, force-cutover, and per-deploy throttler workflows.
+  - Added keyspace deletion and live keyspace-routing-rule inspection/replacement guidance with destructive-write approval and post-write verification requirements.
+  - Re-captured the complete affected keyspace, vtctld, and deploy-request help surfaces from the checksum-verified v0.317.0 macOS arm64 release binary.
 - PlanetScale CLI v0.315.0
   - Reviewed the upstream release and compare `v0.314.0...v0.315.0` on 2026-08-13.
   - Added query execution-sample and query-tag list/show/summary workflows, including required fingerprint/keyspace drill-down, friendly tag-name disambiguation, privacy cautions, and attribution guidance.
